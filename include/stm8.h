@@ -5,6 +5,7 @@
 #ifndef _STH8_H
 #define _STH8_H
 
+#include <stdint.h>
 
 /* Handy macros for GPIO */
 #define CONCAT(a, b)    a##_##b
@@ -237,7 +238,7 @@
 #define SPI_SR_CRCERR (1 << 4)
 #define SPI_SR_WKUP (1 << 3)
 #define SPI_SR_TXE (1 << 1)
-#define SPI_SR_RxNE (1 << 0)
+#define SPI_SR_RXNE (1 << 0)
 
 /* I2C */
 #define I2C_CR1 *(volatile unsigned char *)0x5210
@@ -287,6 +288,11 @@
 #define ADC_CR2_ALIGN (1 << 3)
 #define ADC_CR2_SCAN (1 << 1)
 
+#define ADC_CH_C4 2  // needs alternate function remapping
+#define ADC_CH_D2 3
+#define ADC_CH_D3 4
+#define ADC_CH_D5 5
+#define ADC_CH_D6 6
 
 /* Interrupt commands */
 #define enableInterrupts()    {__asm__("rim\n");}  /* enable interrupts */
