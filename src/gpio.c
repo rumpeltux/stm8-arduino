@@ -39,10 +39,17 @@ uint8_t digitalRead(uint8_t pin) {
 void attachInterrupt(uint8_t pin, void (*callback)(), uint8_t type) {
   uint8_t port = pin >> 4;
   isr_callbacks[port] = callback;
+  // Enable external interrupts and set the type (RISING | FALLING).
   port <<= 1;
   type = (type & 3) << port;
   uint8_t mask = 3 << port;
-  EXTI_CR1 = (EXTI_CR1 & ~mask) | type;
+  uint8_t exti_value = (EXTI_CR1 & ~mask) | type;
+  // EXTI can only be written while interrupts are disabled.
+  __asm__("push cc");
+  sim();
+  EXTI_CR1 = exti_value;
+  __asm__("pop cc");
+
   setBit(OFFSET_CR2, pin, 1);
 }
 
