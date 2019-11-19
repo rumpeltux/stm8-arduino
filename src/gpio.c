@@ -30,6 +30,12 @@ void digitalWrite(uint8_t pin, uint8_t value) {
   setBit(OFFSET_ODR, pin, value);
 }
 
+uint8_t digitalRead(uint8_t pin) {
+  volatile uint8_t *ptr = &PA_ODR + OFFSET_IDR + OFFSET_NEXT * (pin >> 4);
+  pin = 1 << (pin & 7);
+  return *ptr & pin ? 1 : 0;
+}
+
 void attachInterrupt(uint8_t pin, void (*callback)(), uint8_t type) {
   uint8_t port = pin >> 4;
   isr_callbacks[port] = callback;

@@ -23,8 +23,9 @@ extern void detachInterrupt(uint8_t pin);
 #define GPIO_OPENDRAIN         (GPIO_CR1 & 0x00)
 #define GPIO_PUSHPULL          (GPIO_CR1 & 0x02)
 
-#define INPUT (GPIO_INPUT | GPIO_FLOATING)
+#define INPUT_FLOATING (GPIO_INPUT | GPIO_FLOATING)
 #define INPUT_PULLUP (GPIO_INPUT | GPIO_PULLUP)
+#define INPUT INPUT_FLOATING
 #define OUTPUT (GPIO_OUTPUT | GPIO_PUSHPULL)
 
 // STM8S PINs
