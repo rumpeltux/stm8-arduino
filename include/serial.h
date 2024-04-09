@@ -10,6 +10,6 @@
 #define SERIAL_INIT(baud_rate)      \
   do {                              \
     UART1_CR2 = UART_CR2_TEN;       \
-    UART1_BRR2 = UART_BRR2(115200); \
-    UART1_BRR1 = UART_BRR1(115200); \
+    UART1_BRR2 = UART_BRR2(baud_rate); \
+    UART1_BRR1 = UART_BRR1(baud_rate); \
   } while (0);
