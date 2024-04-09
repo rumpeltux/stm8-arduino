@@ -9,7 +9,7 @@ all: $(LIB)
 	@echo -n
 
 $(LIB): $(patsubst %.c, %.rel, $(wildcard *.c))
-	$(AR) rcs $@ $^
+	$(AR) rcs $@ $(filter-out main.rel,$^)
 
 clean:
 	rm -f *.asm *.cdb *.ihx *.lnk *.lk *.lst *.map *.mem *.rel *.rst *.sym $(LIB)

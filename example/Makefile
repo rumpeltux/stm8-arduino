@@ -23,7 +23,8 @@ $(ARDUINO_LIB): $(ARDUINO)/src/*
 # If you have dependencies add:
 # demo.ihx: otherfile.rel
 
-$(TARGET).ihx: $(ARDUINO_LIB) $(TARGET).rel
+$(TARGET).ihx: $(ARDUINO_LIB) $(TARGET).rel $(ARDUINO)/src/main.rel
+	@echo "$<" -- "$^"
 	$(CC) $(CFLAGS) -larduino $(filter-out $<,$^)
 
 flash: $(TARGET).ihx

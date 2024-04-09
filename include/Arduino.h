@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+#define ARDUINO
+
 #include "SPI.h"
 #include "adc.h"
 #include "delay.h"
@@ -14,6 +16,7 @@
 #define B111 0x7
 #define B1000 0x8
 
+void loop();
 void handle_events();
 void yield();
 
