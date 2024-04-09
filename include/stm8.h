@@ -5,7 +5,6 @@
 #ifndef _STH8_H
 #define _STH8_H
 
-#include <stdint.h>
 
 /* Handy macros for GPIO */
 #define CONCAT(a, b)    a##_##b
@@ -24,8 +23,15 @@
 #define CCR *(volatile unsigned char *)0x7F0A
 
 /* Clock */
+#define CLK_ICKR *(volatile unsigned char *)0x50C0
+#define CLK_SWR	*(volatile unsigned char *)0x50C4
 #define CLK_CKDIVR	*(volatile unsigned char *)0x50C6
-#define CLK_PCKENR1 *(volatile uint8_t *)0x50c7
+#define CLK_PCKENR1 *(volatile uint8_t *)0x50C7
+#define CLK_PCKENR2 *(volatile uint8_t *)0x50CA
+
+#define CLK_LSIEN (1 << 3)
+#define CLK_FHWU (1 << 2)
+#define CLK_HSIEN (1 << 0)
 
 /* GPIO */
 #define PA_ODR *(volatile unsigned char *)0x5000
@@ -202,6 +208,8 @@
 #define TIM_SR1_CC1IF (1 << 1)
 #define TIM_SR1_UIF (1 << 0)
 
+#define TIM_EGR_UG (1 << 0)
+
 /* SPI */
 #define SPI_CR1 *(volatile unsigned char *)0x5200
 #define SPI_CR2 *(volatile unsigned char *)0x5201
@@ -238,7 +246,7 @@
 #define SPI_SR_CRCERR (1 << 4)
 #define SPI_SR_WKUP (1 << 3)
 #define SPI_SR_TXE (1 << 1)
-#define SPI_SR_RXNE (1 << 0)
+#define SPI_SR_RxNE (1 << 0)
 
 /* I2C */
 #define I2C_CR1 *(volatile unsigned char *)0x5210
@@ -288,11 +296,21 @@
 #define ADC_CR2_ALIGN (1 << 3)
 #define ADC_CR2_SCAN (1 << 1)
 
-#define ADC_CH_C4 2  // needs alternate function remapping
-#define ADC_CH_D2 3
-#define ADC_CH_D3 4
-#define ADC_CH_D5 5
-#define ADC_CH_D6 6
+/* Flash */
+#define FLASH_PUKR *(volatile unsigned char *)0x5062
+#define FLASH_DUKR *(volatile unsigned char *)0x5064
+#define FLASH_IAPSR *(volatile unsigned char *)0x505f
+#define FLASH_CR2 *(volatile unsigned char *)0x505b
+#define FLASH_NCR2 *(volatile unsigned char *)0x505c
+
+/* Auto-Wakeup */
+#define AWU_CSR *(volatile unsigned char *)0x50F0
+#define AWU_APR *(volatile unsigned char *)0x50F1
+#define AWU_TBR *(volatile unsigned char *)0x50F2
+
+#define AWU_CSR_AWUF    (1 << 5)
+#define AWU_CSR_AWUEN   (1 << 4)
+#define AWU_CSR_MSR     (1 << 0)
 
 /* Interrupt commands */
 #define enableInterrupts()    {__asm__("rim\n");}  /* enable interrupts */

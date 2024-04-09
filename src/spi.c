@@ -28,7 +28,7 @@ uint8_t spi_transfer(uint8_t data) {
   // SPE, SPI Enable, Peripheral enabled
   SPI_CR1 |= SPI_CR1_SPE;
   SPI_DR = data;
-  while ((SPI_SR & SPI_SR_RXNE) == 0)
+  while ((SPI_SR & SPI_SR_RxNE) == 0)
     ;  // No byte yet received.
   uint8_t val = SPI_DR;
   while ((SPI_SR & SPI_SR_TXE) == 0)
