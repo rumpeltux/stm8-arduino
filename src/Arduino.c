@@ -10,7 +10,7 @@ uint8_t arduino_pending_events = 0;
 void (*isr_callbacks[4])() = {(void *)0, (void *)0, (void *)0, (void *)0};
 
 void handle_events() {
-  sim();
+  disableInterrupts();
   if (!arduino_pending_events) return;
   // Current pending events will be handled in this loop.
   // Handling them may cause new events to be submitted.
@@ -19,15 +19,15 @@ void handle_events() {
   arduino_pending_events = 0;
   for (uint8_t i = 0, mask = 1; i < 4; i++, mask <<= 1) {
     if ((events & mask) != 0 && isr_callbacks[i]) {
-      // enable interrupts, allows recording new events for the event loop
-      rim();
+      // allows recording new events for the event loop
+      enableInterrupts();
       isr_callbacks[i]();
-      sim();
+      disableInterrupts();
     }
   }
 }
 
 void yield() {
   handle_events();
-  rim();
+  enableInterrupts();
 }

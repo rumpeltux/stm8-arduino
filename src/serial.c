@@ -5,14 +5,13 @@
 extern void handle_events();
 
 void uart_write(uint8_t c) {
-  sim();
+  disableInterrupts();
   UART1_CR2 |= UART_CR2_TIEN;  // Enable interrupts for TX empty
   while (!(UART1_SR & UART_SR_TXE)) {
     wfi();
-    sim();
     handle_events();
   }
-  rim();
+  enableInterrupts();
   // Then, write the byte to the data register.
   UART1_DR = c;
 }

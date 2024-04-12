@@ -8,8 +8,9 @@
 extern void (*isr_callbacks[4])();
 extern uint8_t arduino_pending_events;
 
-// All interrupt handlers must be defined in the same file that
+// sdcc requires all interrupt handlers to be defined in the same file that
 // includes the main() function.
+
 uint8_t triggered_interrupts = 0;
 
 ISR(timer2_isr, TIM2_OVR_UIF_vector) {
