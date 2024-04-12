@@ -3,6 +3,9 @@
 #include "Arduino.h"
 #include "stm8.h"
 
+// 2^scale is the timer prescaler.
+// Assuming we run at 16 Mhz, scale=4 implies
+// f_timer = 16 MHz / (2^4) = 1 MHz (1μs)
 static void delayPrescaled(uint16_t time, uint8_t scale) {
   if (!time) return;
   time--;
@@ -21,28 +24,27 @@ static void delayPrescaled(uint16_t time, uint8_t scale) {
 }
 
 static void finishDelay() {
-  // loop while the timer i still active
+  // loop while the timer is still active
   while ((TIM2_CR1 & TIM_CR1_CEN) != 0) {
     handle_events();
   }
   rim();
 }
 
-void setTimeoutMicroseconds(uint16_t time) {
-  delayPrescaled(time, 4);  // prescale 2^4 = 16
+void setTimeoutMicroseconds(uint16_t time_us) {
+  delayPrescaled(time_us, 4);
 }
 
-void delayMicroseconds(uint16_t time) {
-  delayPrescaled(time, 4);  // prescale 2^4 = 16
+void delayMicroseconds(uint16_t time_us) {
+  delayPrescaled(time_us, 4);
   finishDelay();
 }
 
-// delay millis
-void delay(uint16_t time) {
+void delay(uint16_t time_ms) {
   // TODO: use delayPrescaled directly
-  while (time > 65) {
+  while (time_ms > 65) {
     delayMicroseconds(65000); // minus ~32 cycles @16MHz
-    time -= 65;
+    time_ms -= 65;
   }
-  delayMicroseconds(time * 1000);
+  delayMicroseconds(time_ms * 1000);
 }
