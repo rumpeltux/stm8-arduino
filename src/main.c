@@ -30,9 +30,14 @@ ISR(adc_isr, ADC1_EOC_vector) {
   ADC_CSR &= ~ADC_CSR_EOCIE;
 }
 
-ISR(uart1_isr, UART1_T_TXE_vector) {
+ISR(uart1_isr_tx, UART1_T_TXE_vector) {
   // Disable the interrupt leaving the UART_SR_TXE flag intact.
   UART1_CR2 &= ~UART_CR2_TIEN;
+}
+
+ISR(uart1_isr_rx, UART1_R_RXNE_vector) {
+  // Disable the interrupt leaving the UART_SR_RXNE flag intact.
+  UART1_CR2 &= ~UART_CR2_RIEN;
 }
 
 ISR(awu_isr, AWU_vector) {

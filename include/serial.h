@@ -1,4 +1,9 @@
+#include <stdint.h>
+
 #include "stm8.h"
+
+uint8_t uart_read();
+void uart_write(uint8_t c);
 
 // Both assume f_master to be 16000000.
 // If you have a lower f_master divide the baudrate accordingly.
