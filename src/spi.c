@@ -21,20 +21,19 @@ void spi_begin() {
   SPI_CR2 = SPI_CR2_SSM | SPI_CR2_SSI;
 }
 
-void spi_end() {}
+void spi_end() {
+  SPI_CR1 &= ~SPI_CR1_SPE;  // Disable SPI
+}
 
 uint8_t spi_transfer(uint8_t data) {
   // MSTR = 1, Master device.
   // SPE, SPI Enable, Peripheral enabled
   SPI_CR1 |= SPI_CR1_SPE;
+  while ((SPI_SR & SPI_SR_TXE) == 0)
+    ;  // TX buffer not yet empty
   SPI_DR = data;
   while ((SPI_SR & SPI_SR_RxNE) == 0)
     ;  // No byte yet received.
   uint8_t val = SPI_DR;
-  while ((SPI_SR & SPI_SR_TXE) == 0)
-    ;  // No byte yet received.
-  while (SPI_SR & SPI_SR_BSY)
-    ;  // SPI is busy in communication or Tx buffer is not empty
-  SPI_CR1 &= ~SPI_CR1_SPE;  // Disable SPI
   return val;
 }
