@@ -17,7 +17,12 @@
 #define B1000 0x8
 
 void loop();
+
+// runs pending interrupt handlers,
+// returns with interrupts disabled
 void handle_events();
+
+// Schedules and runs other pending routines such as interrupt handlers.
 void yield();
 
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)

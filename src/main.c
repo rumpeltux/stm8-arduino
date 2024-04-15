@@ -52,21 +52,17 @@ ISR(awu_isr, AWU_vector) {
 extern void loop();
 extern void setup();
 
-// runs pending interrupt handlers,
-// returns with interrupts disabled
-void handle_events();
-
 static void event_loop() {
   while (1) {
-    handle_events();
-    rim();  // re-enable interrupts
+    yield();
+    enableInterrupts();
     loop();
   }
 }
 
 void main() {
   CLK_CKDIVR = 0x00;  // Set the frequency to 16 MHz
-  rim();              // Enable interrupts.
+  enableInterrupts();
 
   setup();
   event_loop();

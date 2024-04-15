@@ -45,10 +45,10 @@ void attachInterrupt(uint8_t pin, void (*callback)(), uint8_t type) {
   uint8_t mask = 3 << port;
   uint8_t exti_value = (EXTI_CR1 & ~mask) | type;
   // EXTI can only be written while interrupts are disabled.
-  __asm__("push cc");
-  sim();
+  __asm__("push cc");  // save interrupt state
+  disableInterrupts();
   EXTI_CR1 = exti_value;
-  __asm__("pop cc");
+  __asm__("pop cc");  // restore interrupt state
 
   setBit(OFFSET_CR2, pin, 1);
 }

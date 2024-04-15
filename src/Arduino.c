@@ -28,6 +28,8 @@ void handle_events() {
 }
 
 void yield() {
-  handle_events();
+  __asm__("push cc");  // save interrupt state
   enableInterrupts();
+  handle_events();
+  __asm__("pop cc");  // restore interrupt state
 }
