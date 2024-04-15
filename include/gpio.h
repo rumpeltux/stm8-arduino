@@ -6,7 +6,7 @@ uint8_t digitalRead(uint8_t pin);
 
 // WARNING: there can always only be one callback function per port!
 // The sensitivity (type) is also per port.
-extern void attachInterrupt(uint8_t pin, void (*callback)(), uint8_t type);
+extern void attachInterrupt(uint8_t pin, void (*callback)(void), uint8_t type);
 extern void detachInterrupt(uint8_t pin);
 
 #define RISING 1

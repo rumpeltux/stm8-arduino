@@ -7,9 +7,9 @@
 #include "stm8.h"
 
 uint8_t arduino_pending_events = 0;
-void (*isr_callbacks[4])() = {(void *)0, (void *)0, (void *)0, (void *)0};
+void (*isr_callbacks[4])(void) = {(void *)0, (void *)0, (void *)0, (void *)0};
 
-void handle_events() {
+void handle_events(void) {
   disableInterrupts();
   if (!arduino_pending_events) return;
   // Current pending events will be handled in this loop.
@@ -27,7 +27,7 @@ void handle_events() {
   }
 }
 
-void yield() {
+void yield(void) {
   __asm__("push cc");  // save interrupt state
   enableInterrupts();
   handle_events();

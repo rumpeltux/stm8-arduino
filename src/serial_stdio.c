@@ -5,4 +5,4 @@
 // makes them weak symbols, i.e. another implementation that’s
 // directly linked will take precedence over these.
 int putchar(int c) { uart_write(c); return c; }
-int getchar() { return uart_read(); }
+int getchar(void) { return uart_read(); }

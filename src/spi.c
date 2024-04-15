@@ -4,7 +4,7 @@
 
 #include "stm8.h"
 
-void spi_begin() {
+void spi_begin(void) {
   // SPI port setup: MISO is pullup in, MOSI & SCK are push-pull out
   PC_DDR |= PIN5 | PIN6;  // clock and MOSI
   PC_CR1 |= PIN5 | PIN6 | PIN7;
@@ -21,7 +21,7 @@ void spi_begin() {
   SPI_CR2 = SPI_CR2_SSM | SPI_CR2_SSI;
 }
 
-void spi_end() {
+void spi_end(void) {
   SPI_CR1 &= ~SPI_CR1_SPE;  // Disable SPI
 }
 

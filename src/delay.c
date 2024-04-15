@@ -23,7 +23,7 @@ static void delayPrescaled(uint16_t time, uint8_t scale) {
   TIM2_CR1 = TIM_CR1_CEN | TIM_CR1_OPM;
 }
 
-static void finishDelay() {
+static void finishDelay(void) {
   // loop while the timer is still active
   while ((TIM2_CR1 & TIM_CR1_CEN) != 0) {
     wfi();

@@ -5,7 +5,7 @@
 #include "Arduino.h"
 #include "stm8.h"
 
-extern void (*isr_callbacks[4])();
+extern void (*isr_callbacks[4])(void);
 extern uint8_t arduino_pending_events;
 
 // sdcc requires all interrupt handlers to be defined in the same file that
@@ -49,10 +49,9 @@ ISR(awu_isr, AWU_vector) {
   AWU_TBR = 0;
 }
 
-extern void loop();
-extern void setup();
+extern void setup(void);
 
-static void event_loop() {
+static void event_loop(void) {
   while (1) {
     yield();
     enableInterrupts();
@@ -60,7 +59,7 @@ static void event_loop() {
   }
 }
 
-void main() {
+void main(void) {
   CLK_CKDIVR = 0x00;  // Set the frequency to 16 MHz
   enableInterrupts();
 

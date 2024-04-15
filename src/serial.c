@@ -2,7 +2,7 @@
 
 #include "stm8.h"
 
-extern void handle_events();
+extern void handle_events(void);
 
 void uart_write(uint8_t c) {
   disableInterrupts();
@@ -16,7 +16,7 @@ void uart_write(uint8_t c) {
   UART1_DR = c;
 }
 
-uint8_t uart_read() {
+uint8_t uart_read(void) {
   disableInterrupts();
   UART1_CR2 |= UART_CR2_RIEN | UART_CR2_REN;
   // Wait until an interrupt signals us that RX data register is not empty

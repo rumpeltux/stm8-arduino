@@ -9,7 +9,7 @@
 #define OFFSET_CR2 4
 #define OFFSET_NEXT 5
 
-extern void (*isr_callbacks[4])();
+extern void (*isr_callbacks[4])(void);
 
 void setBit(uint8_t port_offset, uint8_t pin, uint8_t set) {
   volatile uint8_t *ptr = &PA_ODR + port_offset + OFFSET_NEXT * (pin >> 4);
@@ -36,7 +36,7 @@ uint8_t digitalRead(uint8_t pin) {
   return *ptr & pin ? 1 : 0;
 }
 
-void attachInterrupt(uint8_t pin, void (*callback)(), uint8_t type) {
+void attachInterrupt(uint8_t pin, void (*callback)(void), uint8_t type) {
   uint8_t port = pin >> 4;
   isr_callbacks[port] = callback;
   // Enable external interrupts and set the type (RISING | FALLING).
