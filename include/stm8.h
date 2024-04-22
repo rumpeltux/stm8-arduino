@@ -24,6 +24,9 @@
 
 /* Clock */
 #define CLK_ICKR *(volatile unsigned char *)0x50C0
+
+#define CLK_ICK_REGAH 0x20
+
 #define CLK_SWR	*(volatile unsigned char *)0x50C4
 #define CLK_CKDIVR	*(volatile unsigned char *)0x50C6
 #define CLK_PCKENR1 *(volatile uint8_t *)0x50C7
@@ -300,7 +303,17 @@
 #define FLASH_PUKR *(volatile unsigned char *)0x5062
 #define FLASH_DUKR *(volatile unsigned char *)0x5064
 #define FLASH_IAPSR *(volatile unsigned char *)0x505f
+#define FLASH_IAPSR_WR_PG_DIS (1 << 0)
+#define FLASH_IAPSR_PUL (1 << 1)
+#define FLASH_IAPSR_EOP (1 << 2)
+#define FLASH_IAPSR_DUL (1 << 3)
+#define FLASH_IAPSR_HVOFF (1 << 6)
+#define FLASH_CR1 *(volatile unsigned char *)0x505a
+#define FLASH_CR1_HALT (1 << 2)
+#define FLASH_CR1_AHALT (1 << 3)
 #define FLASH_CR2 *(volatile unsigned char *)0x505b
+#define FLASH_CR2_PRG (1 << 0)
+#define FLASH_CR2_OPT (1 << 7)
 #define FLASH_NCR2 *(volatile unsigned char *)0x505c
 
 /* Auto-Wakeup */
@@ -311,6 +324,30 @@
 #define AWU_CSR_AWUF    (1 << 5)
 #define AWU_CSR_AWUEN   (1 << 4)
 #define AWU_CSR_MSR     (1 << 0)
+
+#define AWUTB_78US 1
+#define AWUTB_500US 2
+#define AWUTB_1MS 3
+#define AWUTB_2MS 4
+#define AWUTB_4MS 5
+#define AWUTB_8MS 6
+#define AWUTB_16MS 7
+#define AWUTB_32MS 8
+#define AWUTB_64MS 9
+#define AWUTB_128MS 10
+#define AWUTB_256MS 11
+#define AWUTB_512MS 12
+#define AWUTB_1024MS 13
+#define AWUTB_2080MS 14
+#define AWUTB_5280MS 15
+
+#define F_LS 128000
+
+// Important: do not use this for TB >= 2080MS
+#define AWU_APR_DIV(awutb, ms) ((ms * (F_LS / 1000)) >> (awutb - 1))
+
+#define AWU_APR_DIV_2080MS(ms) ((ms * (F_LS / 1000) / 5) >> 11)
+#define AWU_APR_DIV_5280MS(ms) ((ms * (F_LS / 1000) / 30) >> 11)
 
 /* Interrupt commands */
 #define enableInterrupts()    {__asm__("rim\n");}  /* enable interrupts */
