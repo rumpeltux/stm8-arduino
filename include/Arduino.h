@@ -6,6 +6,7 @@
 #include "adc.h"
 #include "delay.h"
 #include "gpio.h"
+#include "millis.h"
 #include "serial.h"
 
 #define false 0
